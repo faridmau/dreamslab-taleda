@@ -27,6 +27,7 @@ class BackendPanelProvider extends PanelProvider
             ->default()
             ->id('backend')
             ->path('backend')
+            ->authGuard('filament')
             ->login()
             ->colors([
                 'primary' => Color::Amber,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\MagentoAdminUser;
 use App\Models\User;
 
 return [
@@ -42,6 +43,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'filament' => [
+            'driver' => 'session',
+            'provider' => 'magento_admins',
+        ],
     ],
 
     /*
@@ -65,6 +71,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
+        ],
+
+        'magento_admins' => [
+            'driver' => 'magento',
+            'model' => MagentoAdminUser::class,
         ],
 
         // 'users' => [
@@ -95,6 +106,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'magento_admins' => [
+            'provider' => 'magento_admins',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,
