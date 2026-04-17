@@ -36,6 +36,16 @@ class MagentoProduct extends Model
         'visibility', 'description', 'short_description',
         'weight', 'url_key', 'meta_title', 'meta_description',
         'tax_class_id', 'cost', 'status_label', 'visibility_label',
+        'brand', 'reference', 'model', 'year', 'condition',
+        'box', 'warranty', 'gender', 'material_case', 'material_bracelet',
+        'case_diameter', 'waterproof', 'dial_color', 'crystal_type',
+        'movement', 'functions', 'bezel_material', 'dial_numbers',
+        'bracelet_color', 'closure_type', 'closure_material',
+        'case_material_label', 'bracelet_color_label', 'buckle_material_label',
+        'clasp_label', 'dial_label', 'dial_numerals_label', 'glass_label',
+        'material_bezel_label', 'waterproof_label', 'is_new_label',
+        'movement_type_label', 'strap_label', 'gender_label', 'diameter_case_label',
+        'jew_weight', 'ringsize', 'jew_stones', 'peso_diamante', 'colore_stone', 'gold_label',
     ];
 
     protected ?array $eavCache = null;
@@ -86,6 +96,24 @@ class MagentoProduct extends Model
     public function getEavAttribute(string $code, mixed $default = null): mixed
     {
         return $this->loadEavAttributes()[$code] ?? $default;
+    }
+
+    /**
+     * Resolve option ID to human-readable label
+     * (Magento select/multiselect attributes store option IDs, not values)
+     */
+    public function getOptionLabel(mixed $optionId): ?string
+    {
+        if (! $optionId) {
+            return null;
+        }
+
+        $db = DB::connection($this->connection);
+
+        return $db->table('eav_attribute_option_value')
+            ->where('option_id', $optionId)
+            ->where('store_id', 0)
+            ->value('value');
     }
 
     // ─── Attribute Accessors ─────────────────────────────────
@@ -167,6 +195,247 @@ class MagentoProduct extends Model
         $v = $this->getEavAttribute('cost');
 
         return $v !== null ? (float) $v : null;
+    }
+
+    // ─── Watch-Specific Attributes ──────────────────────────
+
+    public function getBrandAttribute(): ?string
+    {
+        return $this->getEavAttribute('brand');
+    }
+
+    public function getReferenceAttribute(): ?string
+    {
+        return $this->getEavAttribute('reference');
+    }
+
+    public function getModelAttribute(): ?string
+    {
+        return $this->getEavAttribute('model');
+    }
+
+    public function getYearAttribute(): ?string
+    {
+        return $this->getEavAttribute('year');
+    }
+
+    public function getConditionAttribute(): ?string
+    {
+        return $this->getEavAttribute('condition');
+    }
+
+    public function getBoxAttribute(): ?string
+    {
+        return $this->getEavAttribute('box');
+    }
+
+    public function getWarrantyAttribute(): ?string
+    {
+        return $this->getEavAttribute('warranty');
+    }
+
+    public function getGenderAttribute(): ?string
+    {
+        return $this->getEavAttribute('gender');
+    }
+
+    public function getMaterialCaseAttribute(): ?string
+    {
+        return $this->getEavAttribute('material_case');
+    }
+
+    public function getMaterialBraceletAttribute(): ?string
+    {
+        return $this->getEavAttribute('material_bracelet');
+    }
+
+    public function getCaseDiameterAttribute(): ?string
+    {
+        return $this->getEavAttribute('case_diameter');
+    }
+
+    public function getWaterproofAttribute(): ?string
+    {
+        return $this->getEavAttribute('waterproof');
+    }
+
+    public function getDialColorAttribute(): ?string
+    {
+        return $this->getEavAttribute('dial_color');
+    }
+
+    public function getCrystalTypeAttribute(): ?string
+    {
+        return $this->getEavAttribute('crystal_type');
+    }
+
+    public function getMovementAttribute(): ?string
+    {
+        return $this->getEavAttribute('movement');
+    }
+
+    public function getFunctionsAttribute(): ?string
+    {
+        return $this->getEavAttribute('functions');
+    }
+
+    public function getBezelMaterialAttribute(): ?string
+    {
+        return $this->getEavAttribute('bezel_material');
+    }
+
+    public function getDialNumbersAttribute(): ?string
+    {
+        return $this->getEavAttribute('dial_numbers');
+    }
+
+    public function getBraceletColorAttribute(): ?string
+    {
+        return $this->getEavAttribute('bracelet_color');
+    }
+
+    public function getClosureTypeAttribute(): ?string
+    {
+        return $this->getEavAttribute('closure_type');
+    }
+
+    public function getClosureMaterialAttribute(): ?string
+    {
+        return $this->getEavAttribute('closure_material');
+    }
+
+    // ─── Watch-Specific Attribute Labels (Option ID → Label) ─
+
+    public function getCaseMaterialLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('case_material');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getBraceletColorLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('field_bracelet_color');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getBuckleMaterialLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('field_buckle_material');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getClaspLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('field_clasp');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getDialLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('field_dial');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getDialNumeralsLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('field_dial_numerals');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getGlassLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('field_glass');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getMaterialBezelLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('field_material_bezel');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getWaterproofLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('field_waterproof');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getIsNewLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('is_new');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getMovementTypeLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('movement_type');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getStrapLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('strap');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getGenderLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('gender');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    public function getDiameterCaseLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('diameter_case');
+
+        return $this->getOptionLabel($optionId);
+    }
+
+    // ─── Jewelry-Specific Attributes ─────────────────────────
+
+    public function getJewWeightAttribute(): ?string
+    {
+        return $this->getEavAttribute('jew_weight');
+    }
+
+    public function getRingsizeAttribute(): ?string
+    {
+        return $this->getEavAttribute('ringsize');
+    }
+
+    public function getJewStonesAttribute(): ?string
+    {
+        return $this->getEavAttribute('jew_stones');
+    }
+
+    public function getPesoDiamanteAttribute(): ?string
+    {
+        return $this->getEavAttribute('peso_diamante');
+    }
+
+    public function getColoreStoneAttribute(): ?string
+    {
+        return $this->getEavAttribute('colore_stone');
+    }
+
+    public function getGoldLabelAttribute(): ?string
+    {
+        $optionId = $this->getEavAttribute('gold');
+
+        return $this->getOptionLabel($optionId);
     }
 
     // ─── Label Helpers ───────────────────────────────────────

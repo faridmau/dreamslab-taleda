@@ -43,7 +43,7 @@ class ProductsTable
 
                 Tables\Columns\TextColumn::make('price')
                     ->label('Price')
-                    ->money('USD')
+                    ->money('CHF')
                     ->sortable(query: function (Builder $query, string $direction) {
                         $query->orderBy(function ($sub) {
                             $sub->select('value')

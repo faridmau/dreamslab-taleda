@@ -10,6 +10,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListCategories extends ListRecords
 {
     use MaxContentWidth;
+
     protected static string $resource = CategoryResource::class;
 
     protected function getHeaderActions(): array
