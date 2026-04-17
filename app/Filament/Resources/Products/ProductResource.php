@@ -21,6 +21,7 @@ class ProductResource extends Resource
     protected static ?string $model = MagentoProduct::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
     protected static ?string $navigationLabel = 'Products';
 
     protected static ?string $modelLabel = 'Product';

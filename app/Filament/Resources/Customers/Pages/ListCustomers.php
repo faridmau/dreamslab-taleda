@@ -10,8 +10,8 @@ use Filament\Resources\Pages\ListRecords;
 class ListCustomers extends ListRecords
 {
     use MaxContentWidth;
-    protected static string $resource = CustomerResource::class;
 
+    protected static string $resource = CustomerResource::class;
 
     protected function getHeaderActions(): array
     {

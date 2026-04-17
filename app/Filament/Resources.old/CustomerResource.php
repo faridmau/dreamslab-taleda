@@ -68,6 +68,7 @@ class CustomerResource extends Resource
                             ->label('Created At')
                             ->disabled(),
                         TextInput::make('updated_at')
+                            ->dateTime('d.m.Y H:i')
                             ->label('Updated At')
                             ->disabled(),
                     ]),

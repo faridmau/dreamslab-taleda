@@ -3,11 +3,10 @@
 namespace App\Filament\Resources\Customers\Tables;
 
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
+
 class CustomersTable
 {
     public static function configure(Table $table): Table
@@ -43,10 +42,10 @@ class CustomersTable
                         'success' => 1,
                         'danger' => 0,
                     ])
-                    ->formatStateUsing(fn($state) => $state ? 'Active' : 'Inactive'),
+                    ->formatStateUsing(fn ($state) => $state ? 'Active' : 'Inactive'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
-                    ->dateTime('M d, Y')
+                    ->dateTime('d.m.Y ')
                     ->sortable(),
             ])
             ->filters([

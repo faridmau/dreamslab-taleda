@@ -2,15 +2,17 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components;
+use Filament\Schemas\Schema;
+
 class ProductInfolist
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->components([
                 Components\Section::make('Basic Information')
                     ->columns(2)
@@ -23,7 +25,7 @@ class ProductInfolist
                             ->color(fn ($state) => $state === 'Enabled' ? 'success' : 'danger'),
                         TextEntry::make('visibility_label')->label('Visibility'),
                         TextEntry::make('url_key')->label('URL Key'),
-                        TextEntry::make('created_at')->label('Created')->dateTime(),
+                        TextEntry::make('created_at')->label('Created')->dateTime('d.m.Y H:i'),
                     ]),
 
                 Components\Section::make('Pricing')
@@ -72,10 +74,16 @@ class ProductInfolist
                         RepeatableEntry::make('categories')
                             ->label('')
                             ->schema([
-                                TextEntry::make('entity_id')->label('Category ID'),
+                                TextEntry::make('entity_id')->label('ID'),
+                                TextEntry::make('name')->label('Category Name'),
+                                TextEntry::make('level')->label('Level')->badge(),
+                                TextEntry::make('status_label')->label('Status')
+                                    ->badge()
+                                    ->color(fn ($state) => $state === 'Active' ? 'success' : 'danger'),
                                 TextEntry::make('path')->label('Path'),
+                                TextEntry::make('pivot.position')->label('Position'),
                             ])
-                            ->columns(2),
+                            ->columns(3),
                     ]),
             ]);
     }

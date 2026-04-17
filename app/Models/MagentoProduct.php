@@ -207,7 +207,7 @@ class MagentoProduct extends Model
             'category_id',
             'entity_id',
             'entity_id'
-        );
+        )->withPivot('position');
     }
 
     // ─── Scopes ──────────────────────────────────────────────

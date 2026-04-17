@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ProductsTable
 {
-
     public static function configure(Table $table): Table
     {
         return $table
@@ -60,7 +59,7 @@ class ProductsTable
                 Tables\Columns\TextColumn::make('type_id')
                     ->label('Type')
                     ->badge()
-                    ->color(fn($state) => match ($state) {
+                    ->color(fn ($state) => match ($state) {
                         'simple' => 'success',
                         'configurable' => 'info',
                         'bundle' => 'warning',
@@ -71,7 +70,7 @@ class ProductsTable
                 Tables\Columns\TextColumn::make('status_label')
                     ->label('Status')
                     ->badge()
-                    ->color(fn($state) => $state === 'Enabled' ? 'success' : 'danger'),
+                    ->color(fn ($state) => $state === 'Enabled' ? 'success' : 'danger'),
 
                 Tables\Columns\TextColumn::make('stockItem.qty')
                     ->label('Stock Qty')
@@ -80,7 +79,7 @@ class ProductsTable
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
-                    ->dateTime('d M Y')
+                    ->dateTime('d.m.Y')
                     ->sortable(),
             ])
             ->filters([
@@ -97,7 +96,7 @@ class ProductsTable
 
                 Tables\Filters\Filter::make('enabled')
                     ->label('Enabled only')
-                    ->query(fn(Builder $q) => $q->enabled()),
+                    ->query(fn (Builder $q) => $q->enabled()),
             ])
             ->recordActions([
                 ViewAction::make(),

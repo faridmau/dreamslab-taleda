@@ -2,15 +2,17 @@
 
 namespace App\Filament\Resources\Customers\Schemas;
 
-use Filament\Schemas\Schema;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components;
+use Filament\Schemas\Schema;
+
 class CustomerInfolist
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->components([
                 Components\Section::make('Customer Information')
                     ->columns(2)
@@ -31,14 +33,14 @@ class CustomerInfolist
                             ->label('Website ID'),
                         TextEntry::make('is_active')
                             ->label('Status')
-                            ->color(fn($state) => $state ? 'success' : 'danger')
-                            ->formatStateUsing(fn($state) => $state ? 'Active' : 'Inactive'),
+                            ->color(fn ($state) => $state ? 'success' : 'danger')
+                            ->formatStateUsing(fn ($state) => $state ? 'Active' : 'Inactive'),
                         TextEntry::make('created_at')
                             ->label('Created At')
-                            ->dateTime('M d, Y H:i'),
+                            ->dateTime('d.m.Y H:i'),
                         TextEntry::make('updated_at')
                             ->label('Updated At')
-                            ->dateTime('M d, Y H:i'),
+                            ->dateTime('d.m.Y H:i'),
                     ]),
 
                 Components\Section::make('Addresses')
@@ -74,7 +76,7 @@ class CustomerInfolist
                                     ->badge(),
                                 TextEntry::make('grand_total')
                                     ->label('Total')
-                                    ->formatStateUsing(fn($state) => number_format($state, 2)),
+                                    ->formatStateUsing(fn ($state) => number_format($state, 2)),
                                 TextEntry::make('created_at')
                                     ->label('Date')
                                     ->dateTime('M d, Y'),

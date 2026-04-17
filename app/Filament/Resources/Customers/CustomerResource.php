@@ -9,7 +9,6 @@ use App\Filament\Resources\Customers\Pages\ViewCustomer;
 use App\Filament\Resources\Customers\Schemas\CustomerForm;
 use App\Filament\Resources\Customers\Schemas\CustomerInfolist;
 use App\Filament\Resources\Customers\Tables\CustomersTable;
-use App\Models\Customer;
 use App\Models\MagentoCustomer;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -22,6 +21,7 @@ class CustomerResource extends Resource
     protected static ?string $model = MagentoCustomer::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+
     protected static ?string $navigationLabel = 'Customers';
 
     protected static ?string $modelLabel = 'Customer';
