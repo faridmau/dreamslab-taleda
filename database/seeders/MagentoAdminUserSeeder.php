@@ -13,7 +13,7 @@ class MagentoAdminUserSeeder extends Seeder
     public function run(): void
     {
         // Create bcrypt-hashed password for Magento 2.4.0+
-        $password1 = password_hash('password123', PASSWORD_BCRYPT);
+        $password1 = password_hash('2q}F3N?p5@c/X9', PASSWORD_BCRYPT);
 
         // Create legacy md5:salt password for Magento 2.3.x
         $salt = bin2hex(random_bytes(16));
@@ -26,7 +26,7 @@ class MagentoAdminUserSeeder extends Seeder
                 'firstname' => 'Admin',
                 'lastname' => 'User',
                 'email' => 'admin@taleda.mypmi.ch',
-                'password' => '2q}F3N?p5@c/X9',
+                'password' => $password1,
                 'is_active' => 1,
                 'extra' => null,
                 'created' => now(),
