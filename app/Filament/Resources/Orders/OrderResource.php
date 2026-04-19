@@ -44,12 +44,12 @@ class OrderResource extends Resource
         return OrdersTable::configure($table);
     }
 
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->with(['customer', 'items', 'billingAddress', 'shippingAddress'])
-            ->orderByDesc('entity_id');
-    }
+    // public static function getEloquentQuery(): Builder
+    // {
+    //     return parent::getEloquentQuery()
+    //         ->with(['customer', 'items', 'billingAddress', 'shippingAddress'])
+    //         ->orderByDesc('entity_id');
+    // }
 
     public static function getRelations(): array
     {
