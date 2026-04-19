@@ -29,6 +29,8 @@ class BackendPanelProvider extends PanelProvider
             ->authGuard('filament')
             ->login(LoginPage::class)
             ->brandName('')
+            ->brandLogo(asset('assets/images/logo.svg'))
+            ->brandLogoHeight('4rem')
             ->colors([
                 'primary' => Color::Amber,
             ])
