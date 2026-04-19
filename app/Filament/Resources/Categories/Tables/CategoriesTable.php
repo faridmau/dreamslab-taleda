@@ -16,22 +16,36 @@ class CategoriesTable
                 Tables\Columns\TextColumn::make('entity_id')
                     ->label('ID')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable(query: function (Builder $query, string $search) {
+                        $query->where('catalog_category_entity.entity_id', 'like', "%{$search}%");
+                    }),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label('Category Name')
-                    ->sortable()
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        // EAV-aware sorting: join varchar table
+                        return $query
+                            ->leftJoin('catalog_category_entity_varchar', function ($join) {
+                                $join->on('catalog_category_entity.entity_id', '=', 'catalog_category_entity_varchar.entity_id')
+                                    ->join('eav_attribute', 'eav_attribute.attribute_id', '=', 'catalog_category_entity_varchar.attribute_id')
+                                    ->where('eav_attribute.attribute_code', 'name')
+                                    ->where('catalog_category_entity_varchar.store_id', 0);
+                            })
+                            ->orderBy('catalog_category_entity_varchar.value', $direction)
+                            ->distinct();
+                    })
                     ->searchable(query: function (Builder $query, string $search) {
                         // EAV-aware search: join varchar table
-                        $query->whereIn('entity_id', function ($sub) use ($search) {
-                            $sub->select('entity_id')
+                        $query->whereIn('catalog_category_entity.entity_id', function ($sub) use ($search) {
+                            $sub->select('catalog_category_entity_varchar.entity_id')
                                 ->from('catalog_category_entity_varchar')
                                 ->join('eav_attribute', 'eav_attribute.attribute_id', '=', 'catalog_category_entity_varchar.attribute_id')
                                 ->where('eav_attribute.attribute_code', 'name')
                                 ->where('catalog_category_entity_varchar.value', 'like', "%{$search}%")
                                 ->where('catalog_category_entity_varchar.store_id', 0);
                         });
-                    }),
+                    })
+                    ,
 
                 Tables\Columns\TextColumn::make('level')
                     ->label('Level')
@@ -67,7 +81,7 @@ class CategoriesTable
                     ->dateTime('d.m.Y H:i')
                     ->sortable(),
             ])
-            ->defaultSort('entity_id', 'desc')
+            // ->defaultSort('entity_id', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('level')
                     ->label('Level')
@@ -84,14 +98,14 @@ class CategoriesTable
                     ->label('Active only')
                     ->query(fn (Builder $q) => $q->active()),
             ])
-            ->actions([
+            ->recordActions([
                 ViewAction::make(),
+                // EditAction::make(),
             ])
-            ->bulkActions([
-
-            ])
-            ->persistSearchInSession()
-            ->persistSortInSession()
-            ->persistFiltersInSession();
+            ->toolbarActions([
+                // BulkActionGroup::make([
+                    // DeleteBulkAction::make(),
+                // ]),
+            ]);
     }
 }

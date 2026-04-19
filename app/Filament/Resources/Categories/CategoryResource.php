@@ -44,12 +44,11 @@ class CategoryResource extends Resource
         return CategoriesTable::configure($table);
     }
 
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->with(['parent', 'children', 'products'])
-            ->orderByDesc('entity_id');
-    }
+    // public static function getEloquentQuery(): Builder
+    // {
+    //     return parent::getEloquentQuery()
+    //         ->with(['parent', 'children', 'products']);
+    // }
 
     public static function getRelations(): array
     {

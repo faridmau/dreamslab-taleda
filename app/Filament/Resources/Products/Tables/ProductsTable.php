@@ -13,6 +13,7 @@ class ProductsTable
 {
     public static function configure(Table $table): Table
     {
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('entity_id')
